@@ -254,10 +254,6 @@ Aqui estão os tipos de dados mais comuns disponíveis no SQLite Online:
 
 ---
 
-Se você tiver dúvidas ou precisar de ajuda, sinta-se à vontade para entrar em contato:
-
----
-
 
 
 <p align="center">
