@@ -40,9 +40,13 @@ WHERE e.filme_id = 2 AND status = 'Disponível'
 
 --Verificar se um filme está disponível para aluguel: (Ex.: Para o filme com ID 3)
 
-SELECT id, status
-FROM estoque_filmes
-WHERE id = 3;
+SELECT 
+f.titulo,
+e.status,
+e.quantidade
+from filmes f
+INNER join estoque_filmes e On f.id = e.filme_id
+WHERE f.id = 3;
 
 --Atualizar o status de um filme para "Alugado":(Ex.: Para o filme com ID 1, diminuindo a quantidade em estoque)
 
