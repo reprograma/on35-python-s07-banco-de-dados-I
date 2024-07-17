@@ -82,5 +82,5 @@ WHERE status = 'Disponível';
 
 SELECT filmes.titulo AS filme, e.Status AS disponiveis
 from filmes 
-INNER JOIN estoque_filmes e ON filmes.id 
+INNER JOIN estoque_filmes e ON filmes.id = e.filme_id
 WHERE e.Status = 'Manutenção';
