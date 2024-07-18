@@ -46,13 +46,13 @@ WHERE f.id = 3;
 
 UPDATE estoque_filmes
 SET status = 'Alugado', quantidade = quantidade - 1
-WHERE id = 1 AND quantidade > 0;
+WHERE filme_id = 1 AND quantidade > 0;
 
 -- 4. Atualizar o status de um filme para "Disponível": (Ex.: Para o filme com ID 2, aumentando a quantidade em estoque)
 
 UPDATE estoque_filmes
 SET status = 'Disponível', quantidade = quantidade + 1
-WHERE id = 1 AND quantidade > 0;
+WHERE filme_id = 2 AND quantidade > 0;
 
 -- 5. Obter a lista de todos os filmes disponíveis para aluguel:
 
@@ -70,4 +70,4 @@ WHERE status = 'Em Manutenção'
 
 -- 7. Atualizar o status de um filme para "Em Manutenção": (Ex.: Para o filme com ID 3)
 
-UPDATE estoque_filmes set status = 'Em Manutenção' WHERE id = 3;
+UPDATE estoque_filmes set status = 'Em Manutenção' WHERE filme_id = 3;
