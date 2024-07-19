@@ -28,7 +28,11 @@ INSERT INTO estoque_filmes (filme_id, quantidade, status) VALUES (3, 15, 'Dispon
 SELECT * FROM estoque_filmes;
 
 --Obter a quantidade disponível em estoque para um determinado filme: (Ex.: Para o filme com ID 2)
-SELECT * from estoque_filmes WHERE id = 2;
+select e.filme_id, f.titulo, e.quantidade, e.status
+from estoque_filmes e 
+inner join filmes f
+on e.filme_id = f.id
+where filme_id = 2;
 
 --Verificar se um filme está disponível para aluguel: (Ex.: Para o filme com ID 3)
 SELECT
