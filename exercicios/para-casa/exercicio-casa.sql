@@ -11,7 +11,7 @@ CREATE TABLE filmes (
 -- Insira alguns filmes para teste
 INSERT INTO filmes (titulo, genero, diretor, ano_lancamento, preco) VALUES ('O Poderoso Chefão', 'Drama', 'Francis Ford Coppola', 1972, 25.90);
 INSERT INTO filmes (titulo, genero, diretor, ano_lancamento, preco) VALUES ('Pulp Fiction', 'Crime', 'Quentin Tarantino', 1994, 29.90);
-INSERT INTO filmes (titulo, genero, diretor, ano_lancamento, preco) VALUES ('O Senhor dos Anéis: A Sociedade do Anel', 'Fantasia', 'Peter Jackson', 2001, 35.90)
+INSERT INTO filmes (titulo, genero, diretor, ano_lancamento, preco) VALUES ('O Senhor dos Anéis: A Sociedade do Anel', 'Fantasia', 'Peter Jackson', 2001, 35.90);
 INSERT INTO filmes (titulo, genero, diretor, ano_lancamento, preco) VALUES ('O Cavaleiro das Trevas', 'Ação', 'Christopher Nolan', 2008, 39.90);
 INSERT INTO filmes (titulo, genero, diretor, ano_lancamento, preco) VALUES ('A Origem', 'Ficção Científica', 'Christopher Nolan', 2010, 37.90);
 
@@ -76,30 +76,31 @@ ON F.id = E.filme_id
 WHERE filme_id = 2;
 
 -- 2 - Verificar se um filme está disponível para aluguel: (Ex.: Para o filme com ID 3)
-SELECT F.titulo,F.genero,F.diretor, F.ano_lancamento, F.preco, E.quantidade, E.status
+SELECT F.id,F.titulo,F.genero,F.diretor, F.ano_lancamento, F.preco, E.quantidade AS 'qtd', E.status
 FROM filmes F
 JOIN estoque_filmes E
 ON F.id = E.filme_id
-WHERE filme_id = 3;
+WHERE filme_id = 3 AND E.status = 'Disponível';
 
 -- 3 - Atualizar o status de um filme para "Alugado": (Ex.: Para o filme com ID 1, diminuindo a quantidade em estoque)
 UPDATE estoque_filmes 
 SET status = 'Alugado',
-    quantidade = 2
+    quantidade = quantidade - 2
 WHERE filme_id = 1;
 
 -- 4 - Atualizar o status de um filme para "Disponível": (Ex.: Para o filme com ID 2, aumentando a quantidade em estoque)
 UPDATE estoque_filmes 
 SET status = 'Disponível',
-	quantidade = 50
+	  quantidade = quantidade + 20
 WHERE filme_id = 5;
 
 -- 5 - Obter a lista de todos os filmes disponíveis para aluguel:
-SELECT F.titulo,F.genero,F.diretor,F.ano_lancamento, F.preco, E.quantidade, E.status
-FROM filmes F
-INNER JOIN estoque_filmes E
+SELECT F.id,F.titulo,F.genero,F.diretor,F.ano_lancamento, F.preco, E.quantidade AS 'qtd', E.status
+FROM estoque_filmes E
+INNER JOIN filmes F
 ON F.id = E.filme_id
-WHERE E.status = 'Disponível';
+WHERE E.status = 'Disponível'
+ORDER BY qtd;
 
 -- 6 - Obter a lista de filmes que estão em "Manutenção":
 SELECT F.titulo,F.genero,F.diretor, F.ano_lancamento, F.preco, E.quantidade, E.status
@@ -115,7 +116,7 @@ SET status = 'Manutenção'
 WHERE filme_id = 3;
 
 --Extra
-SELECT F.titulo,F.genero,F.diretor, A.nome AS 'ator principal',F.ano_lancamento, F.preco, E.quantidade, E.status
+SELECT F.titulo,F.genero,F.diretor, A.nome AS 'ator_principal',F.ano_lancamento, F.preco AS 'R$', E.quantidade AS 'qtd', E.status
 FROM filmes F
 INNER join estoque_filmes E
 ON F.id = E.filme_id
@@ -123,5 +124,6 @@ INNER JOIN filmes_atores FA
 ON F.id = FA.filme_id
 INNER JOIN atores A
 ON FA.ator_id = A.id
-WHERE E.status = 'Manutenção' and nome = 'Elijah Wood'
-ORDER BY quantidade;
+WHERE E.status = 'Disponível' AND qtd > 20
+GROUP BY diretor
+ORDER BY qtd;
